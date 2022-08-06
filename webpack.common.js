@@ -6,19 +6,22 @@ const basePath = __dirname;
 
 module.exports = {
   context: path.join(basePath, "src"),
+  resolve: {
+    extensions: [".js",".ts", ".tsx"]
+  },
   entry: {
-    app: "./index.js",
+    app: "./index.tsx",
     appStyles: ["./styles.scss"],
   },
   output: {
-    filename: "[name].[chunkhash].js",
+    filename: "./js/[name].[chunkhash].js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.tsx$/,
         exclude: /node_modules/,
         loader: "babel-loader",
       },
@@ -41,7 +44,35 @@ module.exports = {
         exclude: /node_modules/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
+      {
+        test: /\.(png|jpg)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 5000,
+            name: "./img/[hash].[name].[ext]",
+            esModule: false,
+          },
+        },
+      },
+      {
+        test: /\.html$/,
+        loader: "html-loader",
+      },
     ],
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: "all",
+          name: "vendor",
+          test: /[\\/]node_modules[\\/]((?!s?css).)*$/,
+          enforce: true,
+        },
+      },
+    },
   },
   plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
@@ -51,7 +82,7 @@ module.exports = {
       scriptLoading: "blocking", // Just use the blocking approach (no modern defer or module)
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
+      filename: "./css/[name].[chunkhash].css",
       chunkFilename: "[id].css",
     }),
     new CleanWebpackPlugin(),
