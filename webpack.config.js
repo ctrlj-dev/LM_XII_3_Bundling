@@ -2,10 +2,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
+const basePath = __dirname;
 
 module.exports = {
+  context: path.join(basePath, "src"),
   entry: {
-    app: "./src/students.js",
+    app: "./index.js",
+    appStyles: ["./styles.scss"],
   },
   output: {
     filename: "[name].[chunkhash].js",
@@ -20,6 +23,20 @@ module.exports = {
         loader: "babel-loader",
       },
       {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              implementation: require("sass"),
+            },
+          },
+        ],
+      },
+      {
         test: /\.css$/,
         exclude: /node_modules/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
@@ -30,7 +47,7 @@ module.exports = {
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: "index.html", //Name of file in ./dist/
-      template: "./src/index.html", //Name of template in ./src
+      template: "index.html", //Name of template in ./src
       scriptLoading: "blocking", // Just use the blocking approach (no modern defer or module)
     }),
     new MiniCssExtractPlugin({
