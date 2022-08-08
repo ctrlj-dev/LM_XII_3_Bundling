@@ -1,2 +1,1 @@
-# LM_XII_3_Bundling
-Bundling for Lemoncode XII
+Práctica 3 Edición 12 Máster Lemoncode - Bundling

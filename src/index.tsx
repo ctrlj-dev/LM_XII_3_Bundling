@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { AverageComponent } from "./AverageComponent";
+import Jumbo from "./components/jumbo";
+
 
 ReactDOM.render(
   <div>
-    <h1>Hello from React DOM</h1>
-    <AverageComponent />
+    <Jumbo img="../public/img/logo_2.png" title="Hola Mundo"/>  
   </div>,
   document.getElementById("root")
 );

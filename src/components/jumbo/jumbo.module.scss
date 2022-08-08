@@ -1,0 +1,17 @@
+.jumboContainer {
+    max-width: 600px;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+
+    img {
+        margin: 0 auto;
+    }
+
+    h1 {
+        margin: 30px auto;
+    }
+}
